@@ -1,3 +1,60 @@
+import React,{useState, useRef} from "react";
+import { StyleSheet } from "react-native";
+import { View, Text } from "react-native-animatable";
+import {WebView} from "react-native-webview";
+import WebViewNavigation from "./WebViewNavigation";
+
+export default function WebViewScreen({navigation}){
+const webViewRef = useRef();
+const [canGoBack, setCanGoBack] = useState(false);
+const [canGoForward, setCanGoForward] = useState(false);
+
+//useEffect consologear la url para ver que tira
+//hacer un useEffect y useState y colocar la URL de la HOME para que la tome todo el tiempo
+//con OnNavigationStateChange evalúa las condiciones de la pantalla actual
+//Webview con OnNavigationStateChange{state{state.url}} pasar un cosole.log(state) para ver si muestra la URL
+//guardar esa URL en un estado local currentUrl y setCurrentUrl y setear el set al state.url del navigationStateChange
+
+const handleBackPress= () => {
+    webViewRef.current.goBack()
+}
+const handleForwardPress=()=> {
+    webViewRef.current.goForward()
+}
+     return(
+        <View style={styles.container}>
+            <WebView
+            ref={webViewRef}
+            source={{uri: 'https://sandbox.mercadopago.com.ar/checkout/v1/redirect?pref_id=1031166001-7f8fc1de-2d71-45e6-8d0d-8615835cb5a3'}}
+            navigation={navigation}
+            onNavigationStateChange={state => {
+                const back = state.canGoBack;
+                const forward = state.canGoForward;
+                setCanGoBack(back);
+                setCanGoForward(forward);
+            }}
+            > 
+            </WebView>
+            <WebViewNavigation onBackPress={handleBackPress} onForwardPress={handleForwardPress}/>
+        </View>
+    )
+}
+const styles = StyleSheet.create({
+    container: {
+      flex:1,
+    },
+})
+
+
+
+
+
+
+
+
+
+
+
 // import React, { useRef, useState, useEffect } from "react";
 // import { View, Alert } from 'react-native';
 // import { useSelector } from "react-redux";
@@ -89,44 +146,3 @@
 //         </View>
 //     )
 // }
-
-import React,{useState, useRef} from "react";
-import { StyleSheet } from "react-native";
-import { View, Text } from "react-native-animatable";
-import {WebView} from "react-native-webview";
-import WebViewNavigation from "./WebViewNavigation";
-
-export default function WebViewScreen({navigation}){
-const webViewRef = useRef();
-const [canGoBack, setCanGoBack] = useState(false);
-const [canGoForward, setCanGoForward] = useState(false);
-
-const handleBackPress= () => {
-    webViewRef.current.goBack()
-}
-const handleForwardPress=()=> {
-    webViewRef.current.goForward()
-}
-     return(
-        <View style={styles.container}>
-            <WebView
-            ref={webViewRef}
-            source={{uri: 'https://sandbox.mercadopago.com.ar/checkout/v1/redirect?pref_id=1031166001-2ccf0a1f-91b0-4de6-b44c-328d35e37c11'}}
-            navigation={navigation}
-            onNavigationStateChange={state => {
-                const back = state.canGoBack;
-                const forward = state.canGoForward;
-                setCanGoBack(back);
-                setCanGoForward(forward);
-            }}
-            > 
-            </WebView>
-            <WebViewNavigation onBackPress={handleBackPress} onForwardPress={handleForwardPress}/>
-        </View>
-    )
-}
-const styles = StyleSheet.create({
-    container: {
-      flex:1,
-    },
-})
