@@ -21,6 +21,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import ProfileResto from "../Screens/ProfileResto";
 import ListReviews from "../Screens/ListReviews";
 import AddReviewsRestorant from "../Screens/AddReviewsRestorant";
+import ConfirmReservation from "../Screens/ConfirmReservation";
 //
 //
 //------------Styles y otros ---------
@@ -133,9 +134,9 @@ export default Navigator = () => {
             title: "WebViewScreen",
             headerTitleAlign: "center",
             headerStyle: {
-              backgroundColor: "#f6efd2",
+              backgroundColor: "#161616",
             },
-            headerTintColor: "#392c28",
+            headerTintColor: "#ECCDAA",
             headerTitleStyle: {
               fontSize: 25,
             },
@@ -243,6 +244,23 @@ export default Navigator = () => {
             headerTitle: "Selecciona tu local",
             title: "Mis Sucursales",
 
+            headerTitleAlign: "center",
+            headerStyle: {
+              backgroundColor: "#161616",
+            },
+            headerTintColor: "#ECCDAA",
+            headerTitleStyle: {
+              fontSize: 25,
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name='confirmReservation'
+          component={ConfirmReservation}
+          options={{
+            headerTitle: "Su reserva fue confirmada",
+            title: "Reservations",
             headerTitleAlign: "center",
             headerStyle: {
               backgroundColor: "#161616",

@@ -1,5 +1,4 @@
-
-import React, {useState,useEffect} from "react";
+import React from "react";
 import { Provider } from "react-redux";
 import { store } from "./Redux/Store.js";
 import "react-native-gesture-handler";
@@ -15,9 +14,9 @@ LogBox.ignoreLogs([
 LogBox.ignoreLogs([
   "Animated.event now requires a second argument for options",
 ]);
-
-
-
+LogBox.ignoreLogs([
+  "Can't open url: about:srcdoc",
+]);
 export default function App() {
   // const Stack = createStackNavigator();
 
@@ -25,6 +24,5 @@ export default function App() {
     <Provider store={store}>
       <Navigator />
     </Provider>
-
   );
 }

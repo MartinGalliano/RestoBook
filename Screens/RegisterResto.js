@@ -68,12 +68,20 @@ import { DEFAULT_RESTO_IMAGE } from "@env";
 //
 
 const registerRestoSchema = yup.object({
-  email: yup.string().required(),
-  title: yup.string().required().min(3).max(25),
-  description: yup.string().required().min(10).max(100),
-  phone: yup.number().required(),
+  email: yup.string().required("Por favor, ingresa un email"),
+  title: yup
+    .string()
+    .required("El titulo debe tener entre 3 y 25 caracteres.")
+    .min(3)
+    .max(25),
+  description: yup
+    .string()
+    .required("La descripcion debe tener entre 10 y 100 caracteres.")
+    .min(10)
+    .max(100),
+  phone: yup.number().required("Por favor, ingresá un telefono con Whatsapp"),
   phone2: yup.number(),
-  cuit: yup.number().required(),
+  cuit: yup.number().required("Por favor, ingresá tu CUIT/CUIL"),
 });
 
 const RegisterResto = ({ navigation }) => {
@@ -100,7 +108,7 @@ const RegisterResto = ({ navigation }) => {
     longitudeDelta: 0.0421,
   };
   const dispatch = useDispatch();
-  const empresaDetail = useSelector((state) => state.empresaDetail)
+  const empresaDetail = useSelector((state) => state.empresaDetail);
   const [isVisible, setIsVisible] = useState(false);
 
   //-------------GEOLOCATION-------------
@@ -169,8 +177,6 @@ const RegisterResto = ({ navigation }) => {
       lng: lng,
     });
   };
-
-
 
   return (
     <View style={globalStyles.Home}>
@@ -274,9 +280,9 @@ const RegisterResto = ({ navigation }) => {
                   // img: values.img,
                   restoImage: DEFAULT_RESTO_IMAGE,
                   menu: [],
-                  quantityVoting:0,
-                  ratingTotal:0,
-                  ratingResult:0,
+                  quantityVoting: 0,
+                  ratingTotal: 0,
+                  ratingResult: 0,
                   reservations: [],
                   location: {
                     latitude: state.lat,
@@ -287,18 +293,18 @@ const RegisterResto = ({ navigation }) => {
                   reservationsParams: {
                     places: 1,
                     precioPorLugar: 100,
-                    timeRange: '0-24'
+                    timeRange: "0-24",
                   },
-                  commerceTimeRange: '0-24',
+                  commerceTimeRange: "0-24",
                 })
                 .then(
                   currentUser.commerce
                     ? firebase.db.collection("Users").doc(id).update({
-                      multiCommerce: true,
-                    })
+                        multiCommerce: true,
+                      })
                     : firebase.db.collection("Users").doc(id).update({
-                      commerce: true,
-                    })
+                        commerce: true,
+                      })
                 )
 
                 .then(dispatch(SetCommerce()))
@@ -307,7 +313,7 @@ const RegisterResto = ({ navigation }) => {
               console.log(error);
             }
           } else {
-            alert("logueate!");
+            alert("logueate!!");
           }
         }}
       >
@@ -393,7 +399,7 @@ const RegisterResto = ({ navigation }) => {
               <View style={globalStyles.inputComponent}>
                 <TextInput
                   style={globalStyles.texts}
-                  placeholder="Cuit"
+                  placeholder="CUIT/CUIL"
                   onChangeText={props.handleChange("cuit")}
                   value={props.values.cuit}
                   onBlur={props.handleBlur("cuit")}

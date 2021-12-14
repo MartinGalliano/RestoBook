@@ -15,73 +15,73 @@ const auth = getAuth();
 export default function WebViewScreen({ route, navigation }) {
   const didMountRef = useRef(false);
   const webViewRef = useRef();
-  const { url } = route.params;
+  const { url, cantLugares, unitPrice } = route.params;
   const [currentUrl, setCurrentUrl] = useState(url);
-  const [currentUser, setCurrentUser] = useState({});
+  const currentUser = useSelector( state => state.currentUser)
+  const empresaDetail = useSelector((state) => state.empresaDetail);
   const [reserva, setReserva] = useState({});
   const [canGoBack, setCanGoBack] = useState(false);
   const [canGoForward, setCanGoForward] = useState(false);
-  const empresaDetail = useSelector((state) => state.empresaDetail);
   //useEffect consologear la url para ver que tira
   //hacer un useEffect y useState y colocar la URL de la HOME para que la tome todo el tiempo
   //con OnNavigationStateChange evalúa las condiciones de la pantalla actual
   //Webview con OnNavigationStateChange{state{state.url}} pasar un cosole.log(state) para ver si muestra la URL
   //guardar esa URL en un estado local currentUrl y setCurrentUrl y setear el set al state.url del navigationStateChange
   const getInfo = async () => {
+    console.log('Checking if approved...')
     if (currentUrl.includes("/approved")) {
       try {
+        console.log('Its approved, working...')
         const reservaId = currentUrl.split("=");
-        //console.log(reservaId);
-        //console.log(reservaId[1]);
-        // let payment_status = paramsUrl.get('status');
-        const newreserva = {
+        const newReserva = {
           idReserva: reservaId[1],
           statusReserva: "approved",
         };
-        setReserva(newreserva);
-        const docRef = doc(firebase.db, "Users", auth.currentUser.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          let obj = docSnap.data();
-          setCurrentUser(obj);
-        }
+        sendEmail(newReserva);
+        reservaToDB(newReserva);
+        // const docRef = doc(firebase.db, "Users", auth.currentUser.uid);
+        // const docSnap = await getDoc(docRef);
+        // if (docSnap.exists()) {
+        //   let obj = docSnap.data();
+        //   setCurrentUser(obj);
+        // }
       } catch (error) {
         console.log(error);
       }
     }
   };
-  const sendEmail = () => {
-    //console.log("Entro a sendEmail");
-    //console.log("reserva dentro de sendEmail: ", reserva);
-    const templateParams = {
-      subject: `Tu reserva en ${empresaDetail.title} fue confirmada`,
-      name: currentUser.name,
-      restoName: empresaDetail.title,
-      message: "Reserva confirmada probando",
-      email: currentUser.email,
-      idReserva: "reserva.idReserva",
-    };
-    const sendEmail = () => {
-      //console.log("Entro a sendEmail");
-      //console.log("reserva dentro de sendEmail: ", reserva);
+ 
+    const sendEmail = (reserva) => {
+      console.log("Entro a sendEmail");
+      console.log("reserva dentro de sendEmail: ", reserva);
       const templateParams = {
         subject: `Tu reserva en ${empresaDetail.title} fue confirmada`,
         name: currentUser.name,
         restoName: empresaDetail.title,
         email: currentUser.email,
         idReserva: reserva.idReserva,
+        cantCupos: cantLugares,
+        unitPrice: unitPrice
       };
-      setTimeout(() => {
-        // console.log('URL SUCCESS', currentUrl);
-        navigation.navigate("RestoBook");
-        alert(
-          "Te enviamos un mail con la confirmacion y datos de tu Reserva, muchas gracias !"
-        );
-      }, 5100);
+      emailjs.send('service_w5zryen', 'template_zwe6qen', templateParams, 'user_IEK9t1hQIR3ugtExEH6BG'); 
+        setTimeout(() => {
+        navigation.navigate("confirmReservation", {
+          empresa: empresaDetail,
+          lugares: cantLugares,
+          idReserva: reserva.idReserva
+        });
+        // alert(
+        //   "Te enviamos un mail con la confirmacion y datos de tu Reserva, muchas gracias !"
+        // );
+      }, 4900);
     };
-    const reservaToDB = async () => {
+    const reservaToDB = async (reserva) => {
       //console.log("currentUser: ", currentUser);
       //console.log("reserva dentro de reserva ToDB : ", reserva);
+      let date = new Date()
+      let fecha = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+      let hora = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+      console.log('fecha: ', fecha, 'time: ', hora)
       const reservation = {
         idReserva: reserva.idReserva,
         statusReserva: reserva.statusReserva,
@@ -89,6 +89,13 @@ export default function WebViewScreen({ route, navigation }) {
         idUser: currentUser.id,
         nameResto: empresaDetail.title,
         idResto: empresaDetail.idResto,
+        cantCupos: cantLugares,
+        unitPrice: unitPrice,
+        address: empresaDetail.location.address,
+        date: {
+          date: fecha,
+          time: hora
+        }
       };
       try {
         let userRef = doc(firebase.db, "Users", currentUser.id);
@@ -120,20 +127,19 @@ export default function WebViewScreen({ route, navigation }) {
     const handleForwardPress = () => {
       webViewRef.current.goForward();
     };
-    useEffect(() => {
-      if (didMountRef.current) {
-        sendEmail();
-        reservaToDB();
-      }
-    }, [currentUser]);
+    // useEffect(() => {
+    //   // if (didMountRef.current) {
+     
+    //   // }
+    // }, [currentUser]);
 
     useEffect(() => {
-      if (didMountRef.current) {
+      // if (didMountRef.current) {
        // console.log("entro con didMountRef en true");
         getInfo();
-      } else {
-        didMountRef.current = true;
-      }
+      // } else {
+        // didMountRef.current = true;
+      // }
     }, [currentUrl]);
 
     return (
@@ -163,4 +169,3 @@ export default function WebViewScreen({ route, navigation }) {
       flex: 1,
     },
   });
-}

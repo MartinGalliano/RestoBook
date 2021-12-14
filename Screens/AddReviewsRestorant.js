@@ -15,13 +15,17 @@ import { isEmpty } from "lodash";
 import firebase from "../database/firebase";
 import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import globalStyles from "./GlobalStyles";
+import { Card } from "react-native-elements/dist/card/Card";
 
-export default function AddReviewsRestorant({ navigation }) {
+export default function AddReviewsRestorant({ navigation, route }) {
+  const { nameResto } = route.params
+
   const currentUser = useSelector((state) => state.currentUser);
   const empresaDetail = useSelector((state) => state.empresaDetail);
   const [rating, setRating] = useState(null);
   const [review, setReview] = useState("");
   const [errorReview, setErrorReview] = useState(null);
+
   const addReview = async () => {
     if (!validForm()) {
       return;
@@ -36,6 +40,7 @@ export default function AddReviewsRestorant({ navigation }) {
     };
 
     try {
+      console.log("New Values =>", newValues)
       let restoRef = doc(firebase.db, "Restos", empresaDetail.idResto);
       await updateDoc(restoRef, {
         reviews: arrayUnion(newValues),
@@ -47,35 +52,44 @@ export default function AddReviewsRestorant({ navigation }) {
   };
   const validForm = () => {
     setErrorReview(null);
-    let isValue = true;
+    let isValid = true;
     if (isEmpty(review)) {
       setErrorReview("Completá tu comentario", 3000);
-      isValue = false;
+      isValid = false;
     }
-    return isValue;
+    return isValid;
   };
   return (
     <View style={styles.container}>
-        <View>
+      <Text style={{
+        color: "#000",
+        textAlign: "center",
+        width: "100%",
+        fontSize: 25,
+        fontWeight: "bold",
+        // marginBottom: -10,
+        paddingVertical: 1,
+      }}>{nameResto}</Text>
+
+      <View>
         <View style={styles.viewRating}>
           <AirbnbRating
             count={5}
-            reviews= {["Malo", "Regular", "Normal", "Bueno", "Excelente"]}
+            reviews={["Malo", "Regular", "Normal", "Bueno", "Excelente"]}
             defaultRating={0}
-            size={20}
+            size={15}
             onFinishRating={(value) => setRating(value)}
           ></AirbnbRating>
         </View>
-        <View style={styles.comentarios}>
           <TextInput
             placeholder="  Tu opinion..."
+            placeholderTextColor="#666"
+            textAlign="center"
             fontSize={15}
             containerStyle={styles.containerInput}
             style={globalStyles.inputComponent}
             onChange={(e) => setReview(e.nativeEvent.text)}
-            errorMessage={errorReview}
           />
-        </View>
         {/* <Button
                 title="Enviar Comentario"
                 containerStyle={styles.containerButon}
@@ -87,6 +101,7 @@ export default function AddReviewsRestorant({ navigation }) {
              <TouchableOpacity 
                       style={globalStyles.btnFiltrosHome}
                       onPress={addReview}
+                      errorMessage={errorReview}
                       >
                           <Text style={globalStyles.texts}>Escribe una opinion</Text>
                       </TouchableOpacity>
@@ -107,16 +122,12 @@ const styles = StyleSheet.create({
     marginTop: 100,
     marginBottom: 2,
   },
-  comentarios: {
+  containerInput: {
   },
   input: {
-    height: 150,
-    width: "100%",
-    padding: 0,
-    margin: 0,
   },
   buton: {
- padding: 30,
-marginTop:20
+    padding: 30,
+    marginTop: 20
   },
 });

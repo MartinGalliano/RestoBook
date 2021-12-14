@@ -32,20 +32,14 @@ let initialState = {
     "Otros",
   ],
   categoriesMenu: [
-    "Pizza",
-    "Pasta",
-    "Bebida",
-    "Guarnicion",
-    "Postre",
-    "Plato Principal",
+    "Pizzas",
+    "Pastas",
+    "Bebidas",
+    "Guarniciones",
+    "Postres",
+    "Plato Principales",
   ],
-  sectoresResto: [
-    "Terraza",
-    "Salón Principal",
-    "Patio",
-    "Vereda",
-  ],
-
+  sectoresResto: ["Terraza", "Salón Principal", "Patio", "Vereda"],
 };
 
 const RootReducer = (state = initialState, action) => {

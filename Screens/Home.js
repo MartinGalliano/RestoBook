@@ -1,5 +1,6 @@
 //----------REACT UTILS-----------
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+//
 //----------REDUX UTILS-----------
 import { useDispatch, useSelector } from "react-redux";
 import CurrentId from "../Redux/Actions/CurrentId.js";
@@ -11,11 +12,13 @@ import {
   ScrollView,
   Text,
   StyleSheet,
+  Image,
   TouchableOpacity,
-  TextInput,
+  TextInput, 
   Modal,
   ActivityIndicator,
   Pressable,
+  Alert,
 } from "react-native";
 //---------------------EXPO----------------------
 import * as Location from "expo-location";
@@ -27,32 +30,50 @@ import { doc, onSnapshot, collection, query, getDoc } from "firebase/firestore";
 import CardHome from "../components/CardHome.js";
 //-------STYLES-------
 import globalStyles from "./GlobalStyles.js";
+//
+//---------------------GEOLOCATION-------------------
+import MapView, { Callout, Marker } from "react-native-maps";
+//----------------------------------------------------
+//
 //-------INITIALIZATIONS-------
 const auth = getAuth();
 import { DEFAULT_PROFILE_IMAGE } from "@env";
+import { CLOUDINARY_CONSTANT } from "@env";
 import setUserLocation from "../Redux/Actions/setUserLocation.js";
+//
 //---------------------------------------------------------------------------------------//
 import * as Animatable from "react-native-animatable";
 import { Feather } from "@expo/vector-icons";
 import * as Font from "expo-font";
+//-------YUP(Validacion)------
+import * as yup from "yup";
+//----------FORMIK UTILS-----------
+import { Formik } from "formik";
+//
+import CardMaps from "../components/CardMaps.js";
+
+
+//-------VALIDATION SCHEMA GOOGLE LOGIN--------------
+const googleLoginSchema = yup.object({
+  name: yup.string().required(),
+  lastName: yup.string().required(),
+  cel: yup.number().required(),
+});
 
 export default function Home({ navigation }) {
   const dispatch = useDispatch();
   //------LOGIN JOSE------------
   const [visibleModalGoogle, setVisibleModalGoogle] = useState(false);
-  const [googleUser, setGoogleUser] = useState({
-    name: "",
-    lastName: "",
-    cel: "",
-    email: "",
-  });
   const [usuarioGlobal, setUsuarioGlobal] = useState("");
   const [availableCommerces, setAvailableCommerces] = useState([]);
   const [flagCards, setFlagCards] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
+  //-------------------GEOLOCATION---------------------------//
+  const [mapaVisible, setMapaVisible] = useState(false)
+  const userLocation = useSelector(state => state.userCoordinates)
+  const mapRef = useRef(null)
   //--------------FILTRADO MODAL-------------------------
-  const [allRestos, setAllRestos] = useState();
+  const [allRestos, setAllRestos] = useState([]);
   const [category, setCategory] = useState();
   const [visibleFiltros, isVisibleFiltros] = useState(false);
   const loggedUser = useSelector((state) => state.currentUser);
@@ -69,7 +90,7 @@ export default function Home({ navigation }) {
     const q = query(collection(firebase.db, "Restos"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       let arr = [];
-      console.log("SNAP HOME 89");
+      console.log("SNAP HOME 84");
       querySnapshot.forEach((doc) => {
         let obj = doc.data();
         obj.idResto = doc.id;
@@ -80,11 +101,11 @@ export default function Home({ navigation }) {
     });
   }, []);
 
+
   onAuthStateChanged(auth, (usuarioFirebase) => {
     if (usuarioFirebase?.emailVerified) {
       if (loggedId !== usuarioFirebase.uid) {
         dispatch(CurrentId(usuarioFirebase.uid));
-
         // const unsub = onSnapshot(
         //   doc(firebase.db, "Users", usuarioFirebase.uid),
         //   (doc) => {
@@ -145,13 +166,19 @@ export default function Home({ navigation }) {
       } else {
         //console.log("else de getinfo!");
         let obj = docSnap.data();
-
+        dispatch(CurrentUser(obj))
         setFlagCards(true);
       }
     } catch (e) {
       console.log("error get", e);
     }
   };
+  // const calculateDistances = async (userLocation, restoLocation) => {
+  //   const arrayDistances = await axios(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${restoLocation}&key=${GOOGLE_API_KEY}`)
+  //   console.log(arrayDistances)
+  // }
+  // const orderByDistance = (allRestos) => {
+  // }
   useEffect(() => {
     if (loggedId && auth.currentUser.uid) {
       getInfo();
@@ -226,76 +253,117 @@ if (!fontLoaded) {
     <Text>Hola!</Text>
         </View>
       </BottomSheet> */}
+
+      {/*--------------------MODAL GOOGLE LOGIN--------------------------- */}
       <Modal
-        visible={visibleModalGoogle}
+        visible={false}
         animationType="slide"
         transparent={true}
       >
-        <View style={globalStyles.centeredView}>
-          <View style={globalStyles.modalView}>
-            <TextInput
-              style={globalStyles.inputComponent}
-              placeholder="Nombre"
-              placeholderTextColor="#666"
-              textAlign="center"
-              onChangeText={(value) => {
-                setGoogleUser({
-                  ...googleUser,
-                  name: value,
-                });
-              }}
-            />
-            <TextInput
-              style={globalStyles.inputComponent}
-              placeholder="Apellido"
-              placeholderTextColor="#666"
-              textAlign="center"
-              onChangeText={(value) => {
-                setGoogleUser({
-                  ...googleUser,
-                  lastName: value,
-                });
-              }}
-            />
-            <TextInput
-              style={globalStyles.inputComponent}
-              placeholder="Celular"
-              placeholderTextColor="#666"
-              textAlign="center"
-              onChangeText={(value) => {
-                setGoogleUser({
-                  ...googleUser,
-                  cel: value,
-                });
-              }}
-            />
-            <TouchableOpacity
-              style={globalStyles.btnTodasComidas}
-              onPress={() => {
-                firebase.db.collection("Users").doc(auth.currentUser.uid).set({
-                  id: auth.currentUser.uid,
-                  name: googleUser.name,
-                  lastName: googleUser.lastName,
-                  cel: googleUser.cel,
-                  email: googleUser.email,
-                  commerce: false,
-                  profileImage: DEFAULT_PROFILE_IMAGE,
-                  reservations: [],
-                  payments: [],
-                });
-                setVisibleModalGoogle(false);
-              }}
-            >
-              <Text style={globalStyles.texts}>Enviar</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <Formik
+          initialValues={{
+            name: "",
+            lastName: "",
+            cel: "",
+            email: "",
+          }}
+          validationSchema={googleLoginSchema}
+          onSubmit={({ name, lastName, cel }) => {
+            firebase.db.collection("Users").doc(auth.currentUser.uid).set({
+              id: auth.currentUser.uid,
+              name: name,
+              lastName: lastName,
+              cel: cel,
+              email: auth.currentUser.email,
+              commerce: false,
+              profileImage: DEFAULT_PROFILE_IMAGE,
+              reservations: [],
+              payments: [],
+            });
+            setVisibleModalGoogle(false);
+          }}
+        >
+          {(props) => (
+            <View style={globalStyles.centeredView}>
+              <View style={globalStyles.modalView}>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 30,
+                    paddingVertical: 5,
+                    color: "#161616",
+                    letterSpacing: 1,
+                  }}
+                >
+                  Registrarse
+                </Text>
+                <View style={globalStyles.inputComponent}>
+                  <TextInput
+                    style={globalStyles.texts}
+                    placeholder="Nombre"
+                    placeholderTextColor="#666"
+                    textAlign="center"
+                    onChangeText={props.handleChange("name")}
+                    value={props.values.name}
+                    onBlur={props.handleBlur("name")}
+                  />
+                </View>
+                {props.touched.name && props.errors.name ? (
+                  <Text style={globalStyles.errorText}>
+                    {props.errors.name}
+                  </Text>
+                ) : null}
+                <View style={globalStyles.inputComponent}>
+                  <TextInput
+                    style={globalStyles.texts}
+                    placeholder="Apellido"
+                    placeholderTextColor="#666"
+                    textAlign="center"
+                    onChangeText={props.handleChange("lastName")}
+                    value={props.values.lastName}
+                    onBlur={props.handleBlur("lastName")}
+                  />
+                </View>
+                {props.touched.lastName && props.errors.lastName ? (
+                  <Text style={globalStyles.errorText}>
+                    {props.errors.lastName}
+                  </Text>
+                ) : null}
+                <View style={globalStyles.inputComponent}>
+                  <TextInput
+                    style={globalStyles.texts}
+                    placeholder="Celular"
+                    placeholderTextColor="#666"
+                    textAlign="center"
+                    onChangeText={props.handleChange("cel")}
+                    value={props.values.cel}
+                    onBlur={props.handleBlur("cel")}
+                  />
+                </View>
+                {props.touched.cel && props.errors.cel ? (
+                  <Text style={globalStyles.errorText}>
+                    {props.errors.cel}
+                  </Text>
+                ) : null}
+                <TouchableOpacity
+                  style={globalStyles.btnTodasComidas}
+                  onPress={() => props.handleSubmit()}
+                >
+                  <Text style={globalStyles.texts}>Enviar</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+        </Formik>
       </Modal>
+
+      {/*--------------FIN MODAL GOOGLE LOGIN------------------------- */}
+
       <View style={styles.textContainer}>
         {usuarioGlobal !== "" ? (
-          <Text style={styles.text}>{` Welcome ${usuarioGlobal}`}</Text>
+          <Text style={styles.text}>{` Bienvenido ${usuarioGlobal}`}</Text>
         ) : (
-          <Text style={styles.text}>Welcome to Resto Book</Text>
+          <Text style={styles.text}>Bienvenido a Resto Book</Text>
         )}
       </View>
       {/*   ---------------------------------------Search ------------------------------------------------- */}
@@ -307,8 +375,8 @@ if (!fontLoaded) {
               onChangeText={(event) => {
                 setSearchTerm(event);
               }}
-              placeholder="Search..."
-              placeholderTextColor="black"
+              placeholder="Buscar local..."
+              placeholderTextColor="grey"
               underlineColorAndroid="transparent"
             />
           </Animatable.View>
@@ -318,25 +386,14 @@ if (!fontLoaded) {
         </View>
       </View>
       {/*  /----------------------------------------ORDENAMIENTO----------------------------------------/ */}
-      {/*  <View style={globalStyles.btnHome}>
-      <View style={globalStyles.btnFiltrosHome}>
-      <Picker
-        selectedValue={selectedValu}
-        selectedValue={selectedValue}
-        style={{ height: 17, width: 130 }}
-        onValueChange={updateUser}
-      >
-        <Picker.Item label="Ordenado" value="Or" />
-        <Picker.Item label="A-Z" value="A-Z" />
-        <Picker.Item label="Z-A" value="Z-A" />
-      </Picker>
-    </View> */}
-      <View>
+      <View style={{ flexDirection: "row", justifyContent: 'space-around', alignItems: 'center' }}>
         <Pressable onPress={() => isVisibleFiltro(true)}>
           <TextInput
             style={globalStyles.btnFiltrosHome}
             editable={false}
-            placeholder="Ordenado por"
+            placeholder="Ordenar por"
+            fontWeight={'bold'}
+            fontSize={15}
             textAlign="center"
             placeholderTextColor="#161616"
             value={selectedValue}
@@ -349,7 +406,7 @@ if (!fontLoaded) {
           containerStyle={{ backgroundColor: "#333a" }}
         >
           <ListItem
-            containerStyle={{ backgroundColor: "rgba(0.5,0.25,0,0.7)" }}
+            containerStyle={{ backgroundColor: "rgba(242, 242, 242,0.8)" }}
             style={{
               borderBottomWidth: 1,
               borderColor: "#333a",
@@ -364,14 +421,19 @@ if (!fontLoaded) {
               style={{ backgroundColor: "#0000", alignItems: "center" }}
             >
               <ListItem.Title
-                style={{ height: 35, color: "#fff", padding: 8 }}
+                style={{
+                  height: 35,
+                  color: "#161616",
+                  paddingVertical: 5,
+                  fontWeight: "bold"
+                }}
               >
                 A-Z
               </ListItem.Title>
             </ListItem.Content>
           </ListItem>
           <ListItem
-            containerStyle={{ backgroundColor: "rgba(0.5,0.25,0,0.7)" }}
+            containerStyle={{ backgroundColor: "rgba(242, 242, 242,0.8)" }}
             style={{
               borderBottomWidth: 1,
               borderColor: "#333a",
@@ -386,7 +448,12 @@ if (!fontLoaded) {
               style={{ backgroundColor: "#0000", alignItems: "center" }}
             >
               <ListItem.Title
-                style={{ height: 35, color: "#fff", padding: 8 }}
+                style={{
+                  height: 35,
+                  color: "#161616",
+                  paddingVertical: 5,
+                  fontWeight: "bold"
+                }}
               >
                 Z-A
               </ListItem.Title>
@@ -395,17 +462,14 @@ if (!fontLoaded) {
 
           <ListItem
             key={999}
-            containerStyle={{ backgroundColor: "#d14545" }}
-            style={{ borderBottomWidth: 1, borderColor: "#333a" }}
+            containerStyle={{ backgroundColor: "#eccdaa" }}
+            style={{ borderBottomWidth: 1, borderColor: "#ffff" }}
             onPress={() => isVisibleFiltro(false)}
           >
             <ListItem.Content style={{ alignItems: "center" }}>
               <ListItem.Title
                 style={{
-                  height: 35,
-                  color: "#FFF",
-                  padding: 8,
-                  fontSize: 20,
+                  height: 35, color: "#161616", fontSize: 20
                 }}
               >
                 Cancelar
@@ -414,7 +478,30 @@ if (!fontLoaded) {
           </ListItem>
         </BottomSheet>
         {/*----------------------------------------BOTON MAPA------------------------------------------- */}
-        <TouchableOpacity style={globalStyles.btnFiltrosHome}>
+        <TouchableOpacity
+          style={globalStyles.btnFiltrosHome}
+          onPress={() => {
+            if(loggedUser) {
+              setMapaVisible(!mapaVisible)
+            } else {
+              Alert.alert(
+                'Debes estar logeado para ver el Mapa de tu zona',
+                'Desea ir a la pantalla de Login?',
+                [
+                  {
+                    text: 'Ahora no',
+                    onPress: () => console.log('No quiere logearse'),
+                    style: 'cancel'
+                  },
+                  {
+                    text: 'Si, por favor',
+                    onPress: () => navigation.navigate('GlobalLogin')
+                  }
+                ]
+              )
+            }
+          }}
+          >
           <Text style={globalStyles.texts}><Icon
             reverse
             name="map-marker-alt"
@@ -422,7 +509,8 @@ if (!fontLoaded) {
             color="#FDFDFD"
             reverseColor="#161616"
             size={12}
-          /></Text>
+          />
+          </Text>
         </TouchableOpacity>
         {/*----------------------------------------FILTRADO------------------------------------------- */}
         <View>
@@ -430,7 +518,9 @@ if (!fontLoaded) {
             <TextInput
               style={globalStyles.btnFiltrosHome}
               editable={false}
-              placeholder="Buscar por Categoria"
+              placeholder="Categorias"
+              fontSize={15}
+              fontWeight={'bold'}
               textAlign="center"
               placeholderTextColor="#161616"
               value={category}
@@ -442,7 +532,7 @@ if (!fontLoaded) {
             containerStyle={{ backgroundColor: "#333a" }}
           >
             <ListItem
-              containerStyle={{ backgroundColor: "rgba(0.5,0.25,0,0.7)" }}
+              containerStyle={{ backgroundColor: "rgba(242, 242, 242,0.8)" }}
               style={{
                 borderBottomWidth: 1,
                 borderColor: "#333a",
@@ -457,7 +547,12 @@ if (!fontLoaded) {
                 style={{ backgroundColor: "#0000", alignItems: "center" }}
               >
                 <ListItem.Title
-                  style={{ height: 35, color: "#fff", padding: 8 }}
+                  style={{
+                    height: 35,
+                    color: "#161616",
+                    paddingVertical: 5,
+                    fontWeight: "bold",
+                  }}
                 >
                   Todos
                 </ListItem.Title>
@@ -495,8 +590,8 @@ if (!fontLoaded) {
             ))}
             <ListItem
               key={999}
-              containerStyle={{ backgroundColor: "#d14545" }}
-              style={{ borderBottomWidth: 1, borderColor: "#333a" }}
+              containerStyle={{ backgroundColor: "#eccdaa" }}
+              style={{ borderBottomWidth: 1, borderColor: "#ffff" }}
               onPress={() => isVisibleFiltros(false)}
             >
               <ListItem.Content style={{ alignItems: "center" }}>
@@ -541,6 +636,66 @@ if (!fontLoaded) {
           </View>
         )}
       </ScrollView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={mapaVisible}
+        onRequestClose={() => {
+
+          setMapaVisible(!mapaVisible);
+        }}
+      >
+        <View style={globalStyles.centeredView}>
+          <View style={styles.modalView}>
+            <View style={styles.googleMapsContainer}>
+              <TouchableOpacity
+                style={globalStyles.btnTodasComidas}
+                onPress={() => setMapaVisible(!mapaVisible)}
+              >
+                <Text style={globalStyles.texts}>X</Text>
+              </TouchableOpacity>
+              {Object.entries(userLocation).length > 0 && (
+                <MapView
+                  ref={mapRef}
+                  userInterfaceStyle='light'
+                  style={styles.googleMaps}
+                  initialRegion={{
+                    latitude: userLocation.latitude,
+                    longitude: userLocation.longitude,
+                    latitudeDelta: 0.1,
+                    longitudeDelta: 0.1
+                  }}
+                >
+                  {Object.entries(userLocation).length > 0 && (
+                    <Marker
+                      title='Your location'
+                      pinColor='#0072B5'
+                      coordinate={userLocation}
+                      identifier="userLocation"
+                    />
+                  )}
+                  {allRestos.length > 0 && allRestos.map(resto => {
+                    return (
+                      <Marker
+                        key={resto.idResto}
+                        title={resto.title}
+                        description={resto.description}
+                        pinColor="red"
+                        coordinate={resto.location}
+                        identifier={resto.title}
+                      >
+                        <Callout tooltip>
+                          <CardMaps key={resto.idResto} resto={resto} navigation={navigation} ></CardMaps>
+                        </Callout>  
+                      </Marker>
+                    )
+                  })}
+                </MapView>
+              )}
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -555,6 +710,39 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 4,
     marginTop: 10,
+  },
+  googleMapsContainer: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    borderWidth: 1,
+    borderColor: 'white',
+    padding: 10,
+    borderRadius: 20
+  },
+  googleMaps: {
+    marginTop: 10,
+    flex: 1,
+    borderRadius: 18,
+  },
+  modalView: {
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    borderRadius: 20,
+    padding: 5,
+    width: "95%",
+    height: "95%",
+    alignItems: "center",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+    display: 'flex',
+    elevation: 100,
   },
   textContainer2: {
     flex: 1,

@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  AirbnbRating,
-  Rating,
-  Card,
-  Text,
-  Icon,
-  Badge,
-} from "react-native-elements";
+import { AirbnbRating, Rating, Card, Text, Icon, Badge } from "react-native-elements";
 import {
   View,
   Image,
@@ -19,7 +12,6 @@ import {
 //------ACTIONS---------
 import empresaDetail from "../Redux/Actions/empresaDetail.js";
 //-----STYLES----------
-import globalStyles from "../Screens/GlobalStyles.js";
 //------ICONS----------
 //----------FIREBASE UTILS-----------
 import firebase from "../database/firebase";
@@ -38,7 +30,7 @@ import { useIsFocused } from "@react-navigation/native";
 const auth = getAuth();
 import { CLOUDINARY_CONSTANT } from "@env";
 
-const CardMenu = ({ resto, navigation }) => {
+const CardMaps = ({ resto, navigation }) => {
   // const userFavourites = useSelector((state) => state.favourites);
   const [userFavourites, setUserFavourites] = useState();
   const CurrentId = useSelector((state) => state.currentId);
@@ -48,6 +40,7 @@ const CardMenu = ({ resto, navigation }) => {
   const categories = useSelector((state) => state.categoriesResto);
   const isFocused = useIsFocused();
 
+  // console.log(resto)
   const getFavs = async () => {
     if (CurrentId) {
       const docRef = doc(firebase.db, "Users", CurrentId);
@@ -86,7 +79,6 @@ const CardMenu = ({ resto, navigation }) => {
     phone: resto.phone,
     location: resto.location,
     img: resto.restoImage,
-    description: resto.description,
     reservationsParams: resto.reservationsParams
   };
   const celphone = "+54 9" + resto.phone;
@@ -147,45 +139,43 @@ const CardMenu = ({ resto, navigation }) => {
     }
   };
 
-  let horaInicio = resto.reservationsParams
-    ? resto.reservationsParams.timeRange.split("-")[0]
-    : null;
-  let horaFin = resto.reservationsParams.timeRange
-    ? resto.reservationsParams.timeRange.split("-")[1]
-    : null;
-  //console.log(resto.title, horaFin)
+  let horaInicio = resto.commerceTimeRange ? resto.commerceTimeRange.split("-")[0] : null;
+  let horaFin = resto.commerceTimeRange ? resto.commerceTimeRange.split("-")[1] : null;
   const handleHorarioReserva = () => {
     let horaActual = new Date().getHours();
     //console.log(horaActual, horaInicio, horaFin)
     if (horaActual >= horaInicio && horaActual < horaFin) {
-      return true;
+      return true
     } else {
-      return false;
+      return false
     }
-  };
+  }
+
 
   return (
-    <View style={globalStyles.cardsContainer}>
-      <Badge status={handleHorarioReserva() ? "success" : "error"} containerStyle={{ position: 'absolute', top: 25, left: 20 }} />
-      <TouchableOpacity onPress={() => handleOnPress({ resto })}>
-        <View style={globalStyles.containerImgCard}>
+    <View style={stylesMap.cardsContainer}>
+      <Badge status={handleHorarioReserva() ? "success" : "error"} />
+      <TouchableOpacity onPress={() => handleOnPress()}>
+        <View style={stylesMap.containerImgCard}>
+
           <Image
-            style={globalStyles.cardsHomeimg}
+            style={stylesMap.cardsMapimg}
             source={{
               uri: CLOUDINARY_CONSTANT + resto.restoImage,
             }}
           />
         </View>
 
-        <View style={globalStyles.cardsDescriptionContainer}>
+        <View style={stylesMap.cardsDescriptionContainer}>
           <View>
-            <Text style={globalStyles.cardsHomeTitle}>{resto.title}</Text>
+            <Text style={stylesMap.cardsMapTitle}>{resto.title}</Text>
           </View>
 
           <View>
             <AirbnbRating
+              starContainerStyle={{position:'absolute', bottom: -2}}
               showRating={false}
-              size={20}
+              size={11}
               isDisabled={true}
               selectedColor="#f1c40f"
               unSelectedColor="lightgrey"
@@ -211,24 +201,24 @@ const CardMenu = ({ resto, navigation }) => {
           </View>
 
           <View>
-            <View style={globalStyles.categoriesView}>
-              <Text style={globalStyles.categoriesText}>{resto.category}</Text>
+            <View style={stylesMap.categoriesView}>
+              <Text style={stylesMap.categoriesText}>{resto.category}</Text>
             </View>
           </View>
         </View>
 
-        <View style={globalStyles.btnContainerCard}>
-          <View>
+        <View style={stylesMap.btnContainerCard}>
+          <View style={stylesMap.btnWsp}>
             <TouchableOpacity onPress={() => handleWhatsapp()}>
               <Image
-                style={globalStyles.wspImage}
+                style={stylesMap.wspImage}
                 // resizeMode="contain"
                 source={require("../assets/whatsAppIcon.png")}
               />
             </TouchableOpacity>
           </View>
 
-          <View>
+          <View style={stylesMap.heart}>
             <TouchableOpacity
               onPress={() => {
                 // pressed === true && usuario logueado === false ? alert('logeate primero') : //ESTO ES PARA DECIR QUE
@@ -243,7 +233,7 @@ const CardMenu = ({ resto, navigation }) => {
                 name="heart"
                 type="antdesign"
                 color={hearthColor}
-                style={{ border: "solid 1px blue" }}
+                style={{ border: "1px solid blue" }}
                 iconStyle="red"
                 size={19}
               />
@@ -255,4 +245,100 @@ const CardMenu = ({ resto, navigation }) => {
   );
 };
 
-export default CardMenu;
+const stylesMap = StyleSheet.create({
+    cardsContainer: {
+        alignSelf: "center",
+        backgroundColor: "#f2f2f2",
+        marginHorizontal: 10,
+        marginVertical: 5,
+        paddingHorizontal: 5,
+        paddingVertical: 5,
+        borderRadius: 25,
+        width: 250,
+        height: 120,
+        shadowColor: "#000",
+        shadowOffset: {
+        width: 12,
+        height: 12,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 4.84,
+        elevation: 5,
+    },
+    containerImgCard: {
+        position: 'absolute',
+        top: 10,
+        left: -4,
+        width: 65,
+        maxHeight: "5%",
+        padding: 5,
+        alignSelf: "flex-start",
+        alignItems: "center",
+      },
+    cardsMapimg: {
+        resizeMode: "contain",
+        width: 60,
+        height: 60,
+        borderRadius: 25,
+    },
+    wspImage: {
+        width: 40,
+        height: 40,
+        borderRadius: 25,
+    },
+    cardsDescriptionContainer: {
+        maxHeight: "120%",
+        height: "90%",
+        width: "70%",
+        alignSelf: "center",
+        justifyContent: "space-around",
+    },
+    cardsMapTitle: {
+        marginLeft: 11,
+        fontSize: 18,
+        fontWeight: "bold",
+        textAlign: "center",
+        color: "#161616",
+        textTransform: "capitalize"
+    },
+    categoriesView: {
+        position: 'absolute',
+        bottom: -15,
+        left: 23,
+        backgroundColor: "black",
+        width: '80%',
+        borderRadius: 15,
+        paddingVertical: 2,
+        paddingHorizontal: 5,
+        borderWidth: 1,
+    },
+    categoriesText: {
+        fontSize: 13,
+        padding: 1,
+        textAlign: "center",
+        color: "#ECCEAB",
+        textTransform: "capitalize",
+        fontWeight: "bold",
+    },
+    btnContainerCard: {
+        maxHeight: "120%",
+        height: 120,
+        width: "1.6%",
+        alignSelf: "flex-end",
+        alignItems: "center",
+        marginTop: -120,
+        justifyContent: "space-around",
+    },
+    btnWsp: {
+        position: 'absolute',
+        top: 30,
+        right: 5
+    },
+    heart: {
+        position: 'absolute',
+        top: 71,
+        right: -3
+    }
+})
+
+export default CardMaps;

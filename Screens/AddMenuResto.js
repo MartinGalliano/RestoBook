@@ -13,6 +13,7 @@ import {
   Image,
   Pressable,
   ActivityIndicator,
+  Switch,
 } from "react-native";
 import { BottomSheet, ListItem } from "react-native-elements";
 //
@@ -56,23 +57,8 @@ const AddMenuResto = ({ navigation }) => {
   const categories = useSelector((state) => state.categoriesMenu);
   const [selectedImage, setSelectedImage] = useState(DEFAULT_FOOD_IMAGE);
   const [uploading, setUploading] = useState(false);
-  // const handleOnPressPickImage = async (handleChange) => {
-  //   const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //   if (status === "granted") {
-  //     let result = await ImagePicker.launchImageLibraryAsync({
-  //       mediaTypes: ImagePicker.MediaTypeOptions.All,
-  //       allowsEditing: true,
-  //       aspect: [4, 3],
-  //       quality: 1,
-  //     });
-  //     if (!result.cancelled) {
-  //       handleChange(result.uri);
-  //     }
-  //   } else {
-  //     alert("Sorry, we need camera roll permissions to make this work!");
-  //   }
-  // };
-
+  const [vegan, setVegan] = useState(false);
+  const [glutenFree, setGlutenFree] = useState(false);
   let openImagePickerAsync = async () => {
     setUploading(true);
     let permissionResult =
@@ -179,6 +165,22 @@ const AddMenuResto = ({ navigation }) => {
           </ListItem>
         </BottomSheet>
       </View>
+      <View style={globalStyles.switchComponent}>
+        <Text style={globalStyles.textsSwitch}>Vegano? </Text>
+        <Switch
+          color="green"
+          onValueChange={() => setVegan(!vegan)}
+          value={vegan}
+        />
+      </View>
+      <View style={globalStyles.switchComponent}>
+        <Text style={globalStyles.textsSwitch}>Libre de gluten? </Text>
+        <Switch
+          color="green"
+          onValueChange={() => setGlutenFree(!glutenFree)}
+          value={glutenFree}
+        />
+      </View>
 
       <Formik
         initialValues={{
@@ -196,6 +198,8 @@ const AddMenuResto = ({ navigation }) => {
             price: values.price,
             category: category.toLowerCase(),
             img: selectedImage,
+            vegan: vegan,
+            glutenFree: glutenFree,
           };
           try {
             let restoRef = doc(firebase.db, "Restos", idResto);
@@ -251,7 +255,17 @@ const AddMenuResto = ({ navigation }) => {
                 onBlur={props.handleBlur("price")}
               />
             </View>
-
+            <View style={globalStyles.inputComponent}>
+              {/* <TextInput
+                style={globalStyles.texts}
+                placeholder="vegan"
+                onChangeText={props.handleChange("price")}
+                value={props.values.price}
+                keyboardType="numeric"
+                onBlur={props.handleBlur("price")}
+              /> */}
+            </View>
+            {console.log("holis")}
             {props.touched.price && props.errors.price ? (
               <Text style={globalStyles.errorText}>{props.errors.price}</Text>
             ) : null}

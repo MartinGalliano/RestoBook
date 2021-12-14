@@ -3,6 +3,8 @@ import { Card, Text } from "react-native-elements";
 import { View, Image, StyleSheet } from "react-native";
 import globalStyles from "../Screens/GlobalStyles";
 import { CLOUDINARY_CONSTANT, DEFAULT_FOOD_IMAGE } from "@env";
+import glutenFree from "../assets/sin-gluten.png";
+import vegan from "../assets/vegano.png";
 const CardMenu = ({ menu }) => {
   return (
     <View style={globalStyles.menuCardsContainer}>
@@ -19,7 +21,13 @@ const CardMenu = ({ menu }) => {
           style={{ marginTop: -25 }}
         />
         <Text style={globalStyles.cardsMenuDescriptionText}>
-          {menu.description}
+          {menu.description}{" "}
+          {menu.glutenFree ? (
+            <Image source={glutenFree} style={{ width: 20, height: 20 }} />
+          ) : null}{" "}
+          {menu.vegan ? (
+            <Image source={vegan} style={{ width: 20, height: 20 }} />
+          ) : null}
         </Text>
         <Text style={styles.textPrice}>$ {menu.price}</Text>
       </View>
@@ -30,6 +38,7 @@ const CardMenu = ({ menu }) => {
           source={{
             uri: CLOUDINARY_CONSTANT + menu.img,
           }}
+          resizeMode="contain"
         />
       </View>
     </View>
