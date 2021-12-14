@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, {useState,useEffect} from "react";
 import { Provider } from "react-redux";
 import { store } from "./Redux/Store.js";
 import "react-native-gesture-handler";
@@ -15,6 +15,9 @@ LogBox.ignoreLogs([
 LogBox.ignoreLogs([
   "Animated.event now requires a second argument for options",
 ]);
+
+
+
 export default function App() {
   // const Stack = createStackNavigator();
 

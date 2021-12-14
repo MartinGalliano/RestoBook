@@ -15,7 +15,6 @@ import {
   TextInput,
   Modal,
   ActivityIndicator,
-  Picker,
   Pressable,
 } from "react-native";
 //---------------------EXPO----------------------
@@ -25,7 +24,6 @@ import firebase from "../database/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, onSnapshot, collection, query, getDoc } from "firebase/firestore";
 //---------SCREENS---------------
-/* import SearchBar from "./SearchBar.js"; */
 import CardHome from "../components/CardHome.js";
 //-------STYLES-------
 import globalStyles from "./GlobalStyles.js";
@@ -36,7 +34,7 @@ import setUserLocation from "../Redux/Actions/setUserLocation.js";
 //---------------------------------------------------------------------------------------//
 import * as Animatable from "react-native-animatable";
 import { Feather } from "@expo/vector-icons";
-
+import * as Font from "expo-font";
 
 export default function Home({ navigation }) {
   const dispatch = useDispatch();
@@ -199,6 +197,27 @@ export default function Home({ navigation }) {
       setSelectedValu(resulta)
     }
   }
+
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  useEffect(() => {
+    if(!fontLoaded){
+     loadFonts();
+    }
+  });
+const loadFonts = async () => {
+  await Font.loadAsync({
+    "CourierPrime-Bold": require("../assets/fonts/CourierPrime-Bold.ttf"),
+    "CourierPrime-BoldItalic": require("../assets/fonts/CourierPrime-BoldItalic.ttf"),
+    "CourierPrime-Italic": require("../assets/fonts/CourierPrime-Italic.ttf"),
+    "CourierPrime-Regular": require("../assets/fonts/CourierPrime-Regular.ttf"),
+  });
+  setFontLoaded(true);
+};
+if (!fontLoaded) {
+  return null;
+}
+
 
   return (
     <View style={globalStyles.Home}>
@@ -547,11 +566,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   text: {
+    
     fontSize: 20,
     width: "100%",
     textAlign: "center",
     paddingVertical: 5,
-    fontWeight: "bold",
+   fontWeight: "bold",
     color: "#FDFDFD",
   },
 
