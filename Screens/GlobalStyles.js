@@ -13,12 +13,15 @@ const globalStyles = StyleSheet.create({
     justifyContent: "space-around",
   },
   btnText: {
+    /*   fontFamily: "BeVietnamPro-Black", */
+ fontFamily: "BeVietnamPro-Bold",
+ /*   fontFamily: "BeVietnamPro-ExtraBold", */
+  /*  fontFamily: "BeVietnamPro-Light",
+   fontFamily: "BeVietnamPro-Medium",
+   fontFamily: "BeVietnamPro-Regular",
+   fontFamily: "BeVietnamPro-SemiBold", */
     fontSize: 10,
     color: "#eccdaa",
-       /*    fontFamily:"CourierPrime-Bold", */
-       fontFamily:"CourierPrime-BoldItalic",
-       /* fontFamily: "CourierPrime-Italic", */
-       /*  fontFamily:"CourierPrime-Regular", */
     textAlign: "center",
   },
   btnTextFiltro: {
@@ -28,10 +31,13 @@ const globalStyles = StyleSheet.create({
     fontWeight: "bold",
   },
   btnContainer: {
-       /*    fontFamily:"CourierPrime-Bold", */
-       fontFamily:"CourierPrime-BoldItalic",
-       /* fontFamily: "CourierPrime-Italic", */
-       /*  fontFamily:"CourierPrime-Regular", */
+  /*   fontFamily: "BeVietnamPro-Black", */
+    fontFamily: "BeVietnamPro-Bold",
+  /*   fontFamily: "BeVietnamPro-ExtraBold", */
+   /*  fontFamily: "BeVietnamPro-Light",
+    fontFamily: "BeVietnamPro-Medium",
+    fontFamily: "BeVietnamPro-Regular",
+    fontFamily: "BeVietnamPro-SemiBold", */
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
@@ -60,10 +66,13 @@ const globalStyles = StyleSheet.create({
     elevation: 10,
   },
   btnFiltrosHome: {
-    /*    fontFamily:"CourierPrime-Bold", */
-    /* fontFamily:"CourierPrime-BoldItalic", */
-    fontFamily: "CourierPrime-Italic",
-  /*  fontFamily:"CourierPrime-Regular", */
+     /*   fontFamily: "BeVietnamPro-Black", */
+ fontFamily: "BeVietnamPro-Bold",
+ /*   fontFamily: "BeVietnamPro-ExtraBold", */
+  /*  fontFamily: "BeVietnamPro-Light",
+   fontFamily: "BeVietnamPro-Medium",
+   fontFamily: "BeVietnamPro-Regular",
+   fontFamily: "BeVietnamPro-SemiBold", */
     backgroundColor: "#fdfdfd",
     paddingVertical: 5,
     paddingHorizontal: 9,
@@ -169,11 +178,14 @@ const globalStyles = StyleSheet.create({
   },
   cardsHomeTitle: {
     // backgroundColor: "#5555",
+     /*   fontFamily: "BeVietnamPro-Black", */
+ fontFamily: "BeVietnamPro-Bold",
+ /*   fontFamily: "BeVietnamPro-ExtraBold", */
+  /*  fontFamily: "BeVietnamPro-Light",
+   fontFamily: "BeVietnamPro-Medium",
+   fontFamily: "BeVietnamPro-Regular",
+   fontFamily: "BeVietnamPro-SemiBold", */
     fontSize: 25,
-          fontFamily:"CourierPrime-Bold",
-     /*   fontFamily:"CourierPrime-BoldItalic", */
-     /*   fontFamily: "CourierPrime-Italic", */
-     /*    fontFamily:"CourierPrime-Regular", */
     textAlign: "center",
     width: "100%",
     color: "#161616",
@@ -340,10 +352,13 @@ const globalStyles = StyleSheet.create({
     //backgroundColor: "red",
   },
   categoriesText: {
-       /*    fontFamily:"CourierPrime-Bold", */
-       fontFamily:"CourierPrime-BoldItalic",
-       /* fontFamily: "CourierPrime-Italic", */
-       /*  fontFamily:"CourierPrime-Regular", */
+       /*   fontFamily: "BeVietnamPro-Black", */
+ fontFamily: "BeVietnamPro-Bold",
+ /*   fontFamily: "BeVietnamPro-ExtraBold", */
+  /*  fontFamily: "BeVietnamPro-Light",
+   fontFamily: "BeVietnamPro-Medium",
+   fontFamily: "BeVietnamPro-Regular",
+   fontFamily: "BeVietnamPro-SemiBold", */
     fontSize: 13,
     padding: 1,
     textAlign: "center",
@@ -578,11 +593,14 @@ const globalStyles = StyleSheet.create({
   },
   //------------------------------------------------------------------------------------------------------
   title: {
-    fontSize: 25,
-          fontFamily:"CourierPrime-Bold",
-      /*  fontFamily:"CourierPrime-BoldItalic", */
-       /* fontFamily: "CourierPrime-Italic", */
-       /*  fontFamily:"CourierPrime-Regular", */
+     /*   fontFamily: "BeVietnamPro-Black", */
+ fontFamily: "BeVietnamPro-Bold",
+ /*   fontFamily: "BeVietnamPro-ExtraBold", */
+  /*  fontFamily: "BeVietnamPro-Light",
+   fontFamily: "BeVietnamPro-Medium",
+   fontFamily: "BeVietnamPro-Regular",
+   fontFamily: "BeVietnamPro-SemiBold", */
+    fontSize: 25,  
     paddingVertical: 10,
     paddingHorizontal: 5,
     color: "#ECCDAA",

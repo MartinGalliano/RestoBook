@@ -224,7 +224,7 @@ export default function Home({ navigation }) {
       setSelectedValu(resulta)
     }
   }
-
+/* //------------logica fuentes -----------------------  */
   const [fontLoaded, setFontLoaded] = useState(false);
 
   useEffect(() => {
@@ -234,18 +234,21 @@ export default function Home({ navigation }) {
   });
 const loadFonts = async () => {
   await Font.loadAsync({
-    "CourierPrime-Bold": require("../assets/fonts/CourierPrime-Bold.ttf"),
-    "CourierPrime-BoldItalic": require("../assets/fonts/CourierPrime-BoldItalic.ttf"),
-    "CourierPrime-Italic": require("../assets/fonts/CourierPrime-Italic.ttf"),
-    "CourierPrime-Regular": require("../assets/fonts/CourierPrime-Regular.ttf"),
+    "BeVietnamPro-Black": require("../assets/fonts/BeVietnamPro-Black.ttf"),
+    "BeVietnamPro-Bold": require("../assets/fonts/BeVietnamPro-Bold.ttf"),
+    "BeVietnamPro-ExtraBold": require("../assets/fonts/BeVietnamPro-ExtraBold.ttf"),
+    "BeVietnamPro-Light": require("../assets/fonts/BeVietnamPro-Light.ttf"),
+    "BeVietnamPro-Medium": require("../assets/fonts/BeVietnamPro-Medium.ttf"),
+    "BeVietnamPro-Regular": require("../assets/fonts/BeVietnamPro-Regular.ttf"),
+    "BeVietnamPro-SemiBold": require("../assets/fonts/BeVietnamPro-SemiBold.ttf"),
   });
   setFontLoaded(true);
 };
 if (!fontLoaded) {
-  return null;
+  return null; 
 }
 
-
+/* //------------logica fuentes cierre -----------------------  */
   return (
     <View style={globalStyles.Home}>
       {/* <BottomSheet isVisible={false}>
@@ -427,10 +430,13 @@ if (!fontLoaded) {
                   height: 35,
                   color: "#161616",
                   paddingVertical: 5,
-                   /*    fontFamily:"CourierPrime-Bold", */
-                    fontFamily:"CourierPrime-BoldItalic",
-                   /*  fontFamily: "CourierPrime-Italic", */
-                   /*  fontFamily:"CourierPrime-Regular", */
+                  /*   fontFamily: "BeVietnamPro-Black", */
+ fontFamily: "BeVietnamPro-Bold",
+ /*   fontFamily: "BeVietnamPro-ExtraBold", */
+  /*  fontFamily: "BeVietnamPro-Light",
+   fontFamily: "BeVietnamPro-Medium",
+   fontFamily: "BeVietnamPro-Regular",
+   fontFamily: "BeVietnamPro-SemiBold", */
                 }}
               >
                 A-Z
@@ -457,10 +463,13 @@ if (!fontLoaded) {
                   height: 35,
                   color: "#161616",
                   paddingVertical: 5,
-                   /*    fontFamily:"CourierPrime-Bold", */
-                   fontFamily:"CourierPrime-BoldItalic",
-                   /*  fontFamily: "CourierPrime-Italic", */
-                   /*  fontFamily:"CourierPrime-Regular", */
+                /*   fontFamily: "BeVietnamPro-Black", */
+ fontFamily: "BeVietnamPro-Bold",
+ /*   fontFamily: "BeVietnamPro-ExtraBold", */
+  /*  fontFamily: "BeVietnamPro-Light",
+   fontFamily: "BeVietnamPro-Medium",
+   fontFamily: "BeVietnamPro-Regular",
+   fontFamily: "BeVietnamPro-SemiBold", */
               
                 }}
               >
@@ -479,10 +488,13 @@ if (!fontLoaded) {
               <ListItem.Title
                 style={{
                   height: 35, color: "#161616", fontSize: 20,
-                    /*    fontFamily:"CourierPrime-Bold", */
-   /*  fontFamily:"CourierPrime-BoldItalic", */
-    /*  fontFamily: "CourierPrime-Italic", */
-    fontFamily:"CourierPrime-Regular",
+                   /*   fontFamily: "BeVietnamPro-Black", */
+ fontFamily: "BeVietnamPro-Bold",
+ /*   fontFamily: "BeVietnamPro-ExtraBold", */
+  /*  fontFamily: "BeVietnamPro-Light",
+   fontFamily: "BeVietnamPro-Medium",
+   fontFamily: "BeVietnamPro-Regular",
+   fontFamily: "BeVietnamPro-SemiBold", */
                 }}
               >
                 Cancelar
@@ -563,10 +575,13 @@ if (!fontLoaded) {
                     height: 35,
                     color: "#161616",
                     paddingVertical: 5,
-                  /*    fontFamily:"CourierPrime-Bold", */
-    fontFamily:"CourierPrime-BoldItalic",
-    /* fontFamily: "CourierPrime-Italic", */
-    /*  fontFamily:"CourierPrime-Regular", */
+               /*   fontFamily: "BeVietnamPro-Black", */
+ fontFamily: "BeVietnamPro-Bold",
+ /*   fontFamily: "BeVietnamPro-ExtraBold", */
+  /*  fontFamily: "BeVietnamPro-Light",
+   fontFamily: "BeVietnamPro-Medium",
+   fontFamily: "BeVietnamPro-Regular",
+   fontFamily: "BeVietnamPro-SemiBold", */
                   }}
                 >
                   Todos
@@ -595,11 +610,13 @@ if (!fontLoaded) {
                       height: 35,
                       color: "#161616",
                       paddingVertical: 5,
-                      /* fontWeight: "bold", */
-                      /*    fontFamily:"CourierPrime-Bold", */
-                      fontFamily:"CourierPrime-BoldItalic",
-                      /* fontFamily: "CourierPrime-Italic", */
-                      /*  fontFamily:"CourierPrime-Regular", */
+                    /*   fontFamily: "BeVietnamPro-Black", */
+ fontFamily: "BeVietnamPro-Bold",
+ /*   fontFamily: "BeVietnamPro-ExtraBold", */
+  /*  fontFamily: "BeVietnamPro-Light",
+   fontFamily: "BeVietnamPro-Medium",
+   fontFamily: "BeVietnamPro-Regular",
+   fontFamily: "BeVietnamPro-SemiBold", */
                     }}
                   >
                     {categoria}
@@ -617,10 +634,13 @@ if (!fontLoaded) {
                 <ListItem.Title
                   style={{
                     height: 35, color: "#161616", fontSize: 20,
-                     /*    fontFamily:"CourierPrime-Bold", */
-                     /*  fontFamily:"CourierPrime-Regular", */
-                     fontFamily:"CourierPrime-BoldItalic",
-                     /* fontFamily: "CourierPrime-Italic", */
+                    /*   fontFamily: "BeVietnamPro-Black", */
+ fontFamily: "BeVietnamPro-Bold",
+ /*   fontFamily: "BeVietnamPro-ExtraBold", */
+  /*  fontFamily: "BeVietnamPro-Light",
+   fontFamily: "BeVietnamPro-Medium",
+   fontFamily: "BeVietnamPro-Regular",
+   fontFamily: "BeVietnamPro-SemiBold", */
                     }}
                 >
                   Cancelar
@@ -778,10 +798,13 @@ const styles = StyleSheet.create({
   },
   text: {
    //dejo las otras fuentes proba la que quieras usar ! 
-    /*  fontFamily:"CourierPrime-Bold", */
-   /*  fontFamily:"CourierPrime-BoldItalic", */
-   /*  fontFamily: "CourierPrime-Italic", */
-    fontFamily:"CourierPrime-Regular",
+   /*   fontFamily: "BeVietnamPro-Black", */
+ fontFamily: "BeVietnamPro-Bold",
+ /*   fontFamily: "BeVietnamPro-ExtraBold", */
+  /*  fontFamily: "BeVietnamPro-Light",
+   fontFamily: "BeVietnamPro-Medium",
+   fontFamily: "BeVietnamPro-Regular",
+   fontFamily: "BeVietnamPro-SemiBold", */
     fontSize: 20,
     width: "100%",
     textAlign: "center",
@@ -861,10 +884,13 @@ const styles = StyleSheet.create({
     width: "70%",
   },
   texto: {
-  /*  fontFamily:"CourierPrime-Bold", */
-   /*  fontFamily:"CourierPrime-BoldItalic", */
-   /*  fontFamily: "CourierPrime-Italic", */
-    fontFamily:"CourierPrime-Regular",
+   /*   fontFamily: "BeVietnamPro-Black", */
+ fontFamily: "BeVietnamPro-Bold",
+ /*   fontFamily: "BeVietnamPro-ExtraBold", */
+  /*  fontFamily: "BeVietnamPro-Light",
+   fontFamily: "BeVietnamPro-Medium",
+   fontFamily: "BeVietnamPro-Regular",
+   fontFamily: "BeVietnamPro-SemiBold", */
     paddingHorizontal: 15,
     marginVertical: 5,
     textAlign: "left",
