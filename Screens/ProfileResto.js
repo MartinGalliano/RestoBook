@@ -21,6 +21,8 @@ import {
 } from "react-native";
 import { Divider } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
+import { MaterialIcons } from "@expo/vector-icons";
+import TagOutlined from "react-native-vector-icons/AntDesign";
 //------FIREBASE----------------
 import firebase from "../database/firebase";
 import {
@@ -44,7 +46,7 @@ import {
 import globalStyles from "./GlobalStyles";
 //--------------------------------
 //-------COMPONENTS---------------
-import CardReservation from "../components/CardReservation";
+import CardReservationResto from "../components/CardReservationResto";
 import CardFavourite from "../components/CardFavourite";
 //---------------------------------
 
@@ -94,10 +96,14 @@ const ProfileResto = ({ navigation }) => {
   const [newCommerceInfo, setNewCommerceInfo] = useState({});
   const [uploading, setUploading] = useState(false);
 
+//Modal de Reservas
+const [modalReservaVisible, setmodalReservaVisible] = useState(false);
+const [reservas, setReservas] = useState()
+
   //cantidad de favoritos
-  const [favoritesQty, setFavoritesQty] = useState(null);
+  const [favoritesQty, setFavoritesQty] = useState(0);
   //promedio del rating
-  const [resultRating, setResultRating] = useState(null);
+  const [resultRating, setResultRating] = useState(0);
   useEffect(() => {
     const getInfo = async () => {
       const docRef = doc(firebase.db, "Restos", commerceInfo);
@@ -118,42 +124,28 @@ const ProfileResto = ({ navigation }) => {
         setAvailableCommerces(obj);
         setImage(obj.restoImage);
         setNewCommerceInfo(obj);
+        setReservas(obj.reservations)
       } else {
         alert("NO HAY INFO");
       }
     };
     getInfo();
-  }, [commerceInfo]);
-
-  const getRating = () => {
-    let totalRating = 0;
-    if (availableCommerces?.reviews?.length) {
-      for (let i = 0; i < availableCommerces?.reviews?.length; i++) {
-        totalRating += availableCommerces?.reviews[i]?.rating;
-      }
-      let resultado = totalRating / availableCommerces?.reviews?.length;
-      setResultRating(resultado);
-    } else {
-      setResultRating(totalRating);
-    }
-  };
+  }, [commerceInfo]); 
 
   const getFavQty = async () => {
     try {
-      const docRef = query(
-        collection(firebase.db, "Users"),
-        where("favourites", "!=", "[]")
-      );
+      const docRef = query(collection(firebase.db, "Users"));
       const docSnap = await getDocs(docRef);
       if (!docSnap.empty) {
         let totalFavs = 0;
         docSnap.forEach((doc) => {
           let obj = doc.data();
-          if (obj.favourites.length) {
+          if (obj?.favourites?.length) {
             let favourites = obj.favourites.filter(
               (element) => element.idResto === availableCommerces?.id
             );
             totalFavs += favourites.length;
+            console.log("total", totalFavs);
           }
         });
         setFavoritesQty(totalFavs);
@@ -164,9 +156,16 @@ const ProfileResto = ({ navigation }) => {
   };
 
   useEffect(() => {
+    console.log("rating", resultRating);
+  }, [resultRating]);
+
+  useEffect(() => {
+    console.log("favs", favoritesQty);
+  }, [favoritesQty]);
+
+  useEffect(() => {
     getFavQty();
-    getRating();
-  }, [commerceInfo]);
+  }, [availableCommerces]);
 
   useEffect(() => {
     return () => {
@@ -267,10 +266,9 @@ const ProfileResto = ({ navigation }) => {
       console.log(err);
     }
   };
-
+console.log(reservas)
   return (
     <View style={globalStyles.Perfilcontainer}>
-
       <View style={globalStyles.imgContainer}>
         {image && !uploading ? (
           <TouchableOpacity onPress={openImagePickerAsync}>
@@ -279,7 +277,6 @@ const ProfileResto = ({ navigation }) => {
                 uri: CLOUDINARY_CONSTANT + image,
               }}
               style={globalStyles.imgProfile}
-              
             />
           </TouchableOpacity>
         ) : (
@@ -423,14 +420,33 @@ const ProfileResto = ({ navigation }) => {
           </Modal>
         </View>
       </View>
-      <View style={{
-        backgroundColor: "red",
-        width: "100%",
-        height: "5%"
-      }}>
-
+ 
+      <View style={globalStyles.estadisticasContainer}>
+          <Text style={globalStyles.titleEstadistica}>Cantidad de favoritos recibidos:</Text>
+            <Icon
+                  name="heart"
+                  type="antdesign"
+                  color='#Ef5050'
+                  size={50}
+                  style={{justifyContent: 'center', marginLeft: -280}}
+            />
+            <Text style={{alignSelf: "center", bottom: 40, fontWeight: "bold", fontSize: 20}}>
+            {favoritesQty}
+             </Text>
       </View>
-
+      <View style={globalStyles.estadisticasContainer}>
+          <Text style={globalStyles.titleEstadistica}>Rating promedio total:</Text>
+            <Icon
+                  name="star"
+                  type="antdesign"
+                  color='#F5ea2c'
+                  size={50}
+                  style={{marginLeft: -280}}
+            />
+          <Text style={{ alignSelf: "center", bottom: 40, fontSize: 20, fontWeight: "bold"}}>
+            {Math.floor(resultRating)}
+          </Text>
+      </View>
       {/* MODAL DE ADMINISTRAR RESERVAS */}
       <TouchableOpacity
         onPress={() => setModalAdminReservasVisible(!modalAdminReservasVisible)}
@@ -445,7 +461,6 @@ const ProfileResto = ({ navigation }) => {
         <Text style={{ fontSize: 25, color: "#392c28", textAlign: "center" }}>
           Administrar Reservas
         </Text>
-
       </TouchableOpacity>
 
       <Modal
@@ -471,9 +486,7 @@ const ProfileResto = ({ navigation }) => {
               Administración de reserva
             </Text>
 
-            <Text style={globalStyles.texts}>
-              Horario para reservar(24hs)
-            </Text>
+            <Text style={globalStyles.texts}>Horario para reservar(24hs)</Text>
 
             <View
               style={{
@@ -592,7 +605,6 @@ const ProfileResto = ({ navigation }) => {
               fontSize={20}
             />
 
-
             <Text style={globalStyles.texts}>Resumen:</Text>
 
             <View
@@ -634,7 +646,6 @@ const ProfileResto = ({ navigation }) => {
               >
                 Precio Por Lugar: ${precioXLugar}
               </Text>
-
             </View>
 
             <TouchableOpacity
@@ -649,7 +660,7 @@ const ProfileResto = ({ navigation }) => {
 
       {/* MODAL DE ADMINISTRAR HORARIO COMERCIAL */}
 
-      < TouchableOpacity
+      <TouchableOpacity
         onPress={() => setModalAdminHorarioVisible(!modalAdminHorarioVisible)}
         style={globalStyles.btnProfileResto}
       >
@@ -764,7 +775,80 @@ const ProfileResto = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </Modal >
+
+   {/* MODAL PARA VER RESERVA*/}
+
       </TouchableOpacity >
+      <View onTouchStart={() => setmodalReservaVisible(!modalReservaVisible)}>
+          <TouchableOpacity style={globalStyles.btnFiltrosHome}>
+            <Text style={globalStyles.btnTextFiltro}>
+              Ver Reservas
+            </Text>
+          </TouchableOpacity>
+ 
+           {/* Nuevo Modal Reserva */}
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalReservaVisible}
+          onRequestClose={() => {
+            setmodalReservaVisible(!modalReservaVisible);
+          }}
+        >
+   <View style={globalStyles.centeredView}>
+            <View style={globalStyles.modalView}>
+              <TouchableOpacity
+                style={globalStyles.btnTodasComidas}
+                onPress={() =>
+                  setmodalReservaVisible(!modalReservaVisible)
+                }
+              >
+                <Text style={globalStyles.texts}>X</Text>
+              </TouchableOpacity>
+
+              <View>
+            <Text
+              style={{
+                fontSize: 25,
+                color: "#161616",
+                textAlign: "center",
+                marginTop: 5,
+              }}
+            >
+             
+             <Text style={globalStyles.modalText}/>Reservas
+            </Text>
+            <Divider
+              orientation="horizontal"
+              width={2}
+              inset={true}
+              insetType={"middle"}
+              color={"rgba(00, 00, 00, .5)"}
+              style={{ marginVertical: 5 }}
+            />
+          </View>
+          <ScrollView>
+          {reservas?.map((reserva, index) => {
+              // console.log(reserva)
+              return (
+                <CardReservationResto
+                  key={index}
+                  date={reserva.date.date}
+                  time={reserva.date.time}
+                  cantCupos={reserva.cantCupos}
+                  email={reserva.emailUser}
+                  statusReserva={reserva.statusReserva}
+                  precio={reserva.unitPrice}
+                  idReserva={reserva.idReserva}
+                  navigation={navigation}
+                /> );
+              }) }
+          </ScrollView>
+        </View>
+          </View>
+        </Modal>
+        </View>
     </View >
   );
 };

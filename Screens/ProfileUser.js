@@ -383,6 +383,7 @@ const ProfileUser = ({ navigation }) => {
             />
           </View>
           <ScrollView style={{ padding: 10 }}>
+          
             {reservas?.map((reserva, index) => {
               // console.log(reserva)
               return (
@@ -396,9 +397,9 @@ const ProfileUser = ({ navigation }) => {
                   address={reserva.address}
                   navigation={navigation}
                   idResto={reserva.idResto}
-                />
+                /> 
               );
-            })}
+            }) }
           </ScrollView>
         </View>
       </View>

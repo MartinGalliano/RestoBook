@@ -106,7 +106,7 @@ const GlobalRegisterSchema = yup.object({
 
 const resetPasSchema = yup.object({
   email: yup.string().required().email(),
-})
+});
 
 const GlobalLogin = ({ navigation }) => {
   const [visible, isVisible] = useState(false);
@@ -341,7 +341,10 @@ const GlobalLogin = ({ navigation }) => {
                   </Formik>
                 </Modal>
 
-                <BottomSheet isVisible={TwitterAuthProvider} style={styles.forgottenPass}>
+                <BottomSheet
+                  isVisible={TwitterAuthProvider}
+                  style={styles.forgottenPass}
+                >
                   <View>
                     <TouchableOpacity onPress={() => isforgottVisible(false)}>
                       <Text>X</Text>
@@ -417,6 +420,7 @@ const GlobalLogin = ({ navigation }) => {
                               cel: values.cel,
                               email: values.email.toLowerCase(),
                               commerce: false,
+                              multiCommerce: false,
                               profileImage: DEFAULT_PROFILE_IMAGE,
                               reservations: [],
                               payments: [],
@@ -530,7 +534,7 @@ const GlobalLogin = ({ navigation }) => {
                           />
                         </View>
                         {props.touched.passwordConfirm &&
-                          props.errors.passwordConfirm ? (
+                        props.errors.passwordConfirm ? (
                           <Text style={globalStyles.errorText}>
                             {props.errors.passwordConfirm}
                           </Text>

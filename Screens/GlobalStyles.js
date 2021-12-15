@@ -167,14 +167,13 @@ const globalStyles = StyleSheet.create({
     justifyContent: "space-around",
   },
   cardsDescriptionText: {
-    //backgroundColor: 'lightblue',
+    // backgroundColor: 'lightblue',
     textAlign: "center",
     width: "100%",
-    justifyContent: "space-around",
+    height: "38%",
     fontSize: 12,
-    height: 50,
     fontWeight: "bold",
-    maxHeight: "120%",
+    marginBottom: -2
   },
   cardsHomeTitle: {
     // backgroundColor: "#5555",
@@ -444,6 +443,33 @@ const globalStyles = StyleSheet.create({
 
     elevation: 5,
   },
+  estadisticasContainer : {
+    borderRadius: 15,
+    marginVertical: 5,
+    width: "95%",
+    height: "15%",
+    alignSelf: "center",
+    backgroundColor: "#f2f2f2",
+    justifyContent: "space-around",
+    paddingHorizontal: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+
+    elevation: 6,
+},
+titleEstadistica : {
+  textAlign: "center",
+  fontSize: 20,
+  color: "#161616",
+  fontWeight: 'bold',
+  textTransform: "capitalize"
+},
+
   // ------------------------------------------------------------------------------------------------------
   //------------------------------MODAL PROFILES-----------------------------------------------------------
   centeredView: {

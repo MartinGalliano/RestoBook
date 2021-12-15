@@ -80,6 +80,11 @@ const CardMenu = ({ resto, navigation }) => {
     }
   }, [isFocused]);
 
+  useEffect(() => {
+    console.log("84 cardHome");
+    getFavs();
+  }, [CurrentId]);
+
   let infoFavourite = {
     idResto: resto.idResto,
     title: resto.title,
@@ -87,7 +92,7 @@ const CardMenu = ({ resto, navigation }) => {
     location: resto.location,
     img: resto.restoImage,
     description: resto.description,
-    reservationsParams: resto.reservationsParams
+    reservationsParams: resto.reservationsParams,
   };
   const celphone = "+54 9" + resto.phone;
   const trimmedName = auth?.currentUser?.email?.split("@")[0];
@@ -119,7 +124,7 @@ const CardMenu = ({ resto, navigation }) => {
   const addToFavourite = async () => {
     if (auth?.currentUser?.uid) {
       try {
-        console.log('consolelog en InfoFavourite: ', infoFavourite)
+        // console.log("consolelog en InfoFavourite: ", infoFavourite);
         setHearthColor("red");
         let docRef = doc(firebase.db, "Users", auth.currentUser.uid);
         await updateDoc(docRef, {
@@ -166,7 +171,10 @@ const CardMenu = ({ resto, navigation }) => {
 
   return (
     <View style={globalStyles.cardsContainer}>
-      <Badge status={handleHorarioReserva() ? "success" : "error"} containerStyle={{ position: 'absolute', top: 25, left: 20 }} />
+      <Badge
+        status={handleHorarioReserva() ? "success" : "error"}
+        containerStyle={{ position: "absolute", top: 25, left: 20 }}
+      />
       <TouchableOpacity onPress={() => handleOnPress({ resto })}>
         <View style={globalStyles.containerImgCard}>
           <Image
