@@ -378,6 +378,7 @@ if (!fontLoaded) {
               placeholder="Buscar local..."
               placeholderTextColor="grey"
               underlineColorAndroid="transparent"
+           
             />
           </Animatable.View>
         </View>
@@ -392,7 +393,7 @@ if (!fontLoaded) {
             style={globalStyles.btnFiltrosHome}
             editable={false}
             placeholder="Ordenar por"
-            fontWeight={'bold'}
+           /*  fontWeight={'bold'} */
             fontSize={15}
             textAlign="center"
             placeholderTextColor="#161616"
@@ -411,6 +412,7 @@ if (!fontLoaded) {
               borderBottomWidth: 1,
               borderColor: "#333a",
               backgroundColor: "#fff0",
+             
             }}
             onPress={() => {
               updateUser("A-Z");
@@ -425,7 +427,10 @@ if (!fontLoaded) {
                   height: 35,
                   color: "#161616",
                   paddingVertical: 5,
-                  fontWeight: "bold"
+                   /*    fontFamily:"CourierPrime-Bold", */
+                    fontFamily:"CourierPrime-BoldItalic",
+                   /*  fontFamily: "CourierPrime-Italic", */
+                   /*  fontFamily:"CourierPrime-Regular", */
                 }}
               >
                 A-Z
@@ -452,7 +457,11 @@ if (!fontLoaded) {
                   height: 35,
                   color: "#161616",
                   paddingVertical: 5,
-                  fontWeight: "bold"
+                   /*    fontFamily:"CourierPrime-Bold", */
+                   fontFamily:"CourierPrime-BoldItalic",
+                   /*  fontFamily: "CourierPrime-Italic", */
+                   /*  fontFamily:"CourierPrime-Regular", */
+              
                 }}
               >
                 Z-A
@@ -469,7 +478,11 @@ if (!fontLoaded) {
             <ListItem.Content style={{ alignItems: "center" }}>
               <ListItem.Title
                 style={{
-                  height: 35, color: "#161616", fontSize: 20
+                  height: 35, color: "#161616", fontSize: 20,
+                    /*    fontFamily:"CourierPrime-Bold", */
+   /*  fontFamily:"CourierPrime-BoldItalic", */
+    /*  fontFamily: "CourierPrime-Italic", */
+    fontFamily:"CourierPrime-Regular",
                 }}
               >
                 Cancelar
@@ -520,7 +533,6 @@ if (!fontLoaded) {
               editable={false}
               placeholder="Categorias"
               fontSize={15}
-              fontWeight={'bold'}
               textAlign="center"
               placeholderTextColor="#161616"
               value={category}
@@ -551,7 +563,10 @@ if (!fontLoaded) {
                     height: 35,
                     color: "#161616",
                     paddingVertical: 5,
-                    fontWeight: "bold",
+                  /*    fontFamily:"CourierPrime-Bold", */
+    fontFamily:"CourierPrime-BoldItalic",
+    /* fontFamily: "CourierPrime-Italic", */
+    /*  fontFamily:"CourierPrime-Regular", */
                   }}
                 >
                   Todos
@@ -580,7 +595,11 @@ if (!fontLoaded) {
                       height: 35,
                       color: "#161616",
                       paddingVertical: 5,
-                      fontWeight: "bold",
+                      /* fontWeight: "bold", */
+                      /*    fontFamily:"CourierPrime-Bold", */
+                      fontFamily:"CourierPrime-BoldItalic",
+                      /* fontFamily: "CourierPrime-Italic", */
+                      /*  fontFamily:"CourierPrime-Regular", */
                     }}
                   >
                     {categoria}
@@ -597,8 +616,12 @@ if (!fontLoaded) {
               <ListItem.Content style={{ alignItems: "center" }}>
                 <ListItem.Title
                   style={{
-                    height: 35, color: "#161616", fontSize: 20
-                  }}
+                    height: 35, color: "#161616", fontSize: 20,
+                     /*    fontFamily:"CourierPrime-Bold", */
+                     /*  fontFamily:"CourierPrime-Regular", */
+                     fontFamily:"CourierPrime-BoldItalic",
+                     /* fontFamily: "CourierPrime-Italic", */
+                    }}
                 >
                   Cancelar
                 </ListItem.Title>
@@ -754,12 +777,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   text: {
-    
+   //dejo las otras fuentes proba la que quieras usar ! 
+    /*  fontFamily:"CourierPrime-Bold", */
+   /*  fontFamily:"CourierPrime-BoldItalic", */
+   /*  fontFamily: "CourierPrime-Italic", */
+    fontFamily:"CourierPrime-Regular",
     fontSize: 20,
     width: "100%",
     textAlign: "center",
     paddingVertical: 5,
-   fontWeight: "bold",
+   /* fontWeight: "bold", */
     color: "#FDFDFD",
   },
 
@@ -834,6 +861,10 @@ const styles = StyleSheet.create({
     width: "70%",
   },
   texto: {
+  /*  fontFamily:"CourierPrime-Bold", */
+   /*  fontFamily:"CourierPrime-BoldItalic", */
+   /*  fontFamily: "CourierPrime-Italic", */
+    fontFamily:"CourierPrime-Regular",
     paddingHorizontal: 15,
     marginVertical: 5,
     textAlign: "left",

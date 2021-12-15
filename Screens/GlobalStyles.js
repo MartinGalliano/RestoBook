@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-
 const globalStyles = StyleSheet.create({
+  
   //------------------------------------------HOME---------------------------------------------
   Home: {
     flex: 1,
@@ -13,9 +13,12 @@ const globalStyles = StyleSheet.create({
     justifyContent: "space-around",
   },
   btnText: {
-    fontSize: 14,
+    fontSize: 10,
     color: "#eccdaa",
-    fontWeight: "bold",
+       /*    fontFamily:"CourierPrime-Bold", */
+       fontFamily:"CourierPrime-BoldItalic",
+       /* fontFamily: "CourierPrime-Italic", */
+       /*  fontFamily:"CourierPrime-Regular", */
     textAlign: "center",
   },
   btnTextFiltro: {
@@ -25,6 +28,10 @@ const globalStyles = StyleSheet.create({
     fontWeight: "bold",
   },
   btnContainer: {
+       /*    fontFamily:"CourierPrime-Bold", */
+       fontFamily:"CourierPrime-BoldItalic",
+       /* fontFamily: "CourierPrime-Italic", */
+       /*  fontFamily:"CourierPrime-Regular", */
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
@@ -53,6 +60,10 @@ const globalStyles = StyleSheet.create({
     elevation: 10,
   },
   btnFiltrosHome: {
+    /*    fontFamily:"CourierPrime-Bold", */
+    /* fontFamily:"CourierPrime-BoldItalic", */
+    fontFamily: "CourierPrime-Italic",
+  /*  fontFamily:"CourierPrime-Regular", */
     backgroundColor: "#fdfdfd",
     paddingVertical: 5,
     paddingHorizontal: 9,
@@ -159,7 +170,10 @@ const globalStyles = StyleSheet.create({
   cardsHomeTitle: {
     // backgroundColor: "#5555",
     fontSize: 25,
-    fontWeight: "bold",
+          fontFamily:"CourierPrime-Bold",
+     /*   fontFamily:"CourierPrime-BoldItalic", */
+     /*   fontFamily: "CourierPrime-Italic", */
+     /*    fontFamily:"CourierPrime-Regular", */
     textAlign: "center",
     width: "100%",
     color: "#161616",
@@ -326,12 +340,16 @@ const globalStyles = StyleSheet.create({
     //backgroundColor: "red",
   },
   categoriesText: {
+       /*    fontFamily:"CourierPrime-Bold", */
+       fontFamily:"CourierPrime-BoldItalic",
+       /* fontFamily: "CourierPrime-Italic", */
+       /*  fontFamily:"CourierPrime-Regular", */
     fontSize: 13,
     padding: 1,
     textAlign: "center",
     color: "#ECCDAA",
     textTransform: "capitalize",
-    fontWeight: "bold",
+    
   },
   //----------------------------ACA TERMINA CATEGORIAS LOCALES --------------------------------------------
 
@@ -561,7 +579,10 @@ const globalStyles = StyleSheet.create({
   //------------------------------------------------------------------------------------------------------
   title: {
     fontSize: 25,
-    fontWeight: "bold",
+          fontFamily:"CourierPrime-Bold",
+      /*  fontFamily:"CourierPrime-BoldItalic", */
+       /* fontFamily: "CourierPrime-Italic", */
+       /*  fontFamily:"CourierPrime-Regular", */
     paddingVertical: 10,
     paddingHorizontal: 5,
     color: "#ECCDAA",
