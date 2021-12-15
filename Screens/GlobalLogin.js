@@ -38,7 +38,6 @@ import {
   getRedirectResult,
   onAuthStateChanged,
   sendPasswordResetEmail,
-  TwitterAuthProvider,
 } from "firebase/auth";
 
 import firebase from "../database/firebase";
@@ -342,7 +341,7 @@ const GlobalLogin = ({ navigation }) => {
                 </Modal>
 
                 <BottomSheet
-                  isVisible={TwitterAuthProvider}
+                  isVisible={forgottvisible}
                   style={styles.forgottenPass}
                 >
                   <View>

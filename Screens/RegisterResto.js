@@ -307,7 +307,7 @@ const RegisterResto = ({ navigation }) => {
                       })
                 )
 
-                .then(dispatch(SetCommerce()))
+                .then(dispatch(SetCommerce(1)))
                 .then(navigation.navigate("RestoBook"));
             } catch (error) {
               console.log(error);

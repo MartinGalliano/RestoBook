@@ -194,6 +194,7 @@ const AddMenuResto = ({ navigation }) => {
         onSubmit={async (values) => {
           const newValues = {
             foodName: values.foodName.toLowerCase(),
+            idResto: idResto,
             description: values.description.toLowerCase(),
             price: values.price,
             category: category.toLowerCase(),

@@ -13,7 +13,7 @@ import {
 let initialState = {
   empresas: [],
   menus: [],
-  commerce: false,
+  commerce: 0,
   currentId: null,
   currentUser: {},
   empresaDetail: [],
@@ -75,7 +75,7 @@ const RootReducer = (state = initialState, action) => {
     case SET_COMMERCE:
       return {
         ...state,
-        commerce: true,
+        commerce: commerce + action.payload,
       };
     case USER_FAVOURITES:
       return {
