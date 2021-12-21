@@ -1,6 +1,6 @@
 <p align='center'>
   <kbd>
-  <img src='assets/splash.png' width = '30%' height = '30%'>                                                                                    
+  <img src='assets/splash.png' width = '05%' height = '05%'>                                                                                    
 </kbd>
     </p>
 
