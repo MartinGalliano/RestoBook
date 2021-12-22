@@ -1,5 +1,6 @@
-<img src='assets/splash.png' width = '1000' height = '50'>                                                                                    
-
+<p align='center'>
+<img src='assets/img/Resto .gif' width = '1000' height = '300'>                                                                                    
+</p>
 
 #
 
@@ -15,7 +16,21 @@
 ![fire base](https://img.shields.io/badge/firebase-%23039BE5.svg?style=flat&logo=firebase)
 ![runs with Expo Go](https://img.shields.io/badge/Runs%20with%20Expo%20Go-4630EB.svg?style=flat&logo=EXPO&labelColor=f3f3f3&logoColor=000)
 #
-
+#### Algunas imagenes de la app: 
+<p align='center'>
+<kbd> 
+       <img src="assets/img/restos.jpeg" width="250px">         
+       <img src="assets/img/Register-resto.jpeg" width="250px">    
+       <img src="assets/img/Resto-Details.jpeg" width="250px">    
+       </kbd>
+  </p>
+  <p align='center'>
+  <kbd> 
+      <img src="assets/img/Menu.jpeg" width="250px">        
+      <img src="assets/img/geolocation.jpeg" width="250px"> 
+      <img src="assets/img/UserProfile.jpeg" width="250px"> 
+  </kbd>
+</p>
 
 #### Developers: 
 
@@ -30,6 +45,6 @@
 #
 
 #### TL Proyect (by Henry) :
-##### Elena Gonzales | [Linkedin](https://www.linkedin.com/in/ele-gonzalez//) | [Github](https://github.com/danielmaers)
+##### Elena Gonzales | [Linkedin](https://www.linkedin.com/in/ele-gonzalez//) | [Github](https://github.com/elenaGonzalez)
 
 
