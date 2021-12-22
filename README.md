@@ -10,13 +10,24 @@
 
 #### Tech Stack :
 
-![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=flat&logo=Javascript&logoColor=%23F7DF1E) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=React&logoColor=%2361DAFB) ![Redux](https://img.shields.io/badge/Redux-%23593d88.svg?style=flat&logo=redux&logoColor=white) ![React Native](https://img.shields.io/badge/react%20Native-%2320232a.svg?style=flat&logo=React&logoColor=%2361DAFB) ![GitHub](https://img.shields.io/badge/Github-%23121011.svg?style=flat&logo=github&logoColor=white)![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=flat&logo=CSS3&logoColor=white)
-![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=flat&logo=VS-Code&logoColor=white) ![Trello](https://img.shields.io/badge/Trello-%23026AA7.svg?style=flat&logo=Trello&logoColor=white) 
-![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat&logo=postman&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=flat&logo=Javascript&logoColor=%23F7DF1E) 
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=React&logoColor=%2361DAFB) 
+![Redux](https://img.shields.io/badge/Redux-%23593d88.svg?style=flat&logo=redux&logoColor=white) 
+![React Native](https://img.shields.io/badge/react%20Native-%2320232a.svg?style=flat&logo=React&logoColor=%2361DAFB) 
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=flat&logo=CSS3&logoColor=white)
 ![fire base](https://img.shields.io/badge/firebase-%23039BE5.svg?style=flat&logo=firebase)
+![android](https://img.shields.io/badge/Android-3DDC84?style=flat&logo=android&logoColor=white)
+![IOS](https://img.shields.io/badge/iOS-000000?style=flat&logo=ios&logoColor=white)
+![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=flat&logo=VS-Code&logoColor=white) 
+![GitHub](https://img.shields.io/badge/Github-%23121011.svg?style=flat&logo=github&logoColor=white)
+![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat&logo=postman&logoColor=white)
+![Trello](https://img.shields.io/badge/Trello-%23026AA7.svg?style=flat&logo=Trello&logoColor=white) 
 ![runs with Expo Go](https://img.shields.io/badge/Runs%20with%20Expo%20Go-4630EB.svg?style=flat&logo=EXPO&labelColor=f3f3f3&logoColor=000)
+
 #
+
 #### Algunas imagenes de la app: 
+
 <p align='center'>
 <kbd> 
        <img src="assets/img/restos.jpeg" width="250px">         
@@ -26,11 +37,13 @@
   </p>
   <p align='center'>
   <kbd> 
-      <img src="assets/img/Menu.jpeg" width="250px">        
+      <img src="assets/img/Menu.jpeg" width="277px">        
       <img src="assets/img/geolocation.jpeg" width="250px"> 
       <img src="assets/img/UserProfile.jpeg" width="250px"> 
   </kbd>
 </p>
+
+#
 
 #### Developers: 
 
