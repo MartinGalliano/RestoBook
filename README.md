@@ -48,10 +48,10 @@
 #### Developers: 
 
 ##### Ramiro Fazio | [Linkedin](https://www.linkedin.com/in/ramiro-fazio-dattoli/) | [Github](https://github.com/ramirofazio)
-##### Laial Sapaguin Serpa | [Linkedin](https://www.linkedin.com/in/laial-sapaguin-fullstack/) | [Github](github.com/Laial-S)
-##### Lucas Roman Gervasi | [Linkedin](linkedin.com/in/lucas-roman-gervasi-419463200) | [Github](github.com/LucasRomanGervasi )
-##### Franco Brizuela | [Linkedin](linkedin.com/in/francobrizuela-dev) | [Github](franco_brizuela@hotmail.com)
-##### Lucas Mira | [Linkedin](linkedin.com/in/lucas-nahuel-mira) | [Github](https://github.com/LucasMira93)
+##### Laial Sapaguin Serpa | [Linkedin](https://www.linkedin.com/in/laial-sapaguin-fullstack/) | [Github](https://github.com/Laial-S)
+##### Lucas Roman Gervasi | [Linkedin](https://www.linkedin.com/in/lucas-roman-gervasi-419463200) | [Github](https://github.com/LucasRomanGervasi )
+##### Franco Brizuela | [Linkedin](https://www.linkedin.com/in/francobrizuela-dev) | [Github](franco_brizuela@hotmail.com)
+##### Lucas Mira | [Linkedin](https://www.linkedin.com/in/lucas-nahuel-mira) | [Github](https://github.com/LucasMira93)
 ##### Jose Luis Santangelo | [Linkedin](https://www.linkedin.com/in/jose-luis-santangelo-fullstack/) | [Github](https://github.com/josesantangelo)
 ##### Martin Galliano  | [Linkedin](https://www.linkedin.com/in/martin-galliano-hr/) | [Github](https://github.com/MartinGalliano)
 
